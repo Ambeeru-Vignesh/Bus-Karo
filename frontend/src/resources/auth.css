@@ -1,8 +1,7 @@
-.auth{
-    background-color: var(--secondary);
+.auth {
+  background-color: var(--secondary);
 }
 
-i{
-    color: #191e89
+i {
+  color: var(--secondary);
 }
-

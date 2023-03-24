@@ -9,11 +9,7 @@
 }
 
 .Modal {
-  background-color: green;
-  color: whitesmoke;
-}
-.Modal-f {
-  background-color: black !important;
+  background-color: var(--secondary);
   color: whitesmoke;
 }
 

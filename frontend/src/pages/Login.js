@@ -26,9 +26,11 @@ const Login = () => {
     if (isError) {
       toast.error(userMessage);
     }
-    if (user && isSuccess) {
-      message.success("User Logged In Successfully");
+    if (user) {
       navigate("/");
+      if (isSuccess) {
+        message.success("User Logged in Successfully");
+      }
     }
 
     dispatch(reset());

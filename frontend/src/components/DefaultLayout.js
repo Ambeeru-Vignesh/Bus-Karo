@@ -74,6 +74,8 @@ const DefaultLayout = ({ children }) => {
   const pathHandler = (path) => {
     if (path === "/logout") {
       dispatch(logout());
+      localStorage.removeItem("user");
+      message.error("Logged Out Successfully!");
       navigate("/login");
     } else {
       navigate(path);
@@ -160,7 +162,7 @@ const DefaultLayout = ({ children }) => {
           </div>
         </div>
       ) : (
-        <h1>{message.error("Not Authorized. Please login to continue.")}</h1>
+        <></>
       )}
     </>
   );
