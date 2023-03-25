@@ -20,6 +20,7 @@
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.479);
   width: 100%;
   padding: 20px;
+  margin-bottom: 15px;
 }
 
 .img {
@@ -36,7 +37,7 @@
   flex-direction: column;
 }
 .logo {
-  color: rgb(198, 251, 255);
+  color: #dde8ff;
   padding-top: 40px;
   font-size: 50px;
   display: flex;

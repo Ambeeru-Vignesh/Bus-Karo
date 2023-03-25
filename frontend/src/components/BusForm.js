@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Form, Col, Row, message } from "antd";
 import { createBus, listBuses, updateBus } from "../redux/buses/busSlice";
 import "../resources/layout.css";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BusForm = ({
   showBusForm,
@@ -15,6 +15,8 @@ const BusForm = ({
   getData,
 }) => {
   const dispatch = useDispatch();
+  const { pageNumber: pageNo } = useParams();
+  const pageNumber = pageNo || 1;
 
   const onFinish = async (values) => {
     if (type === "add") {
@@ -28,7 +30,7 @@ const BusForm = ({
     }
     setShowBusForm(false);
     setSelectedBus("");
-    dispatch(listBuses());
+    dispatch(listBuses(pageNumber));
   };
 
   const initialValues = {

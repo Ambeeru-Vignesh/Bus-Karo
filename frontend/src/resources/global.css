@@ -38,6 +38,12 @@ select {
   border-radius: 0 !important;
 }
 
+/* Home content */
+
+#Home-content {
+  background-color: rgb(245, 242, 227);
+}
+
 /* text-sizes */
 
 .text-2xl {
@@ -144,4 +150,20 @@ p {
 
 table {
   border: 1px solid rgb(185, 185, 185) !important;
+}
+
+.Paginate {
+  margin: 20px;
+  font-weight: bold;
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+Pagination {
+  background-color: blueviolet;
+}
+.page-color:hover {
+  background-color: aqua;
 }

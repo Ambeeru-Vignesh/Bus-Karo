@@ -8,7 +8,6 @@ const initialState = {
   isLoading: false,
   message: "",
   bus: {},
-  updatedBus: {},
 };
 
 export const listBuses = createAsyncThunk(
@@ -48,7 +47,7 @@ export const createBus = createAsyncThunk(
 );
 
 export const ListBusDetails = createAsyncThunk(
-  "buses/details",
+  "bus/details",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
@@ -156,7 +155,7 @@ export const busSlice = createSlice({
       .addCase(updateBus.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.updatedBus = action.payload;
+        state.bus = action.payload;
       })
       .addCase(updateBus.rejected, (state, action) => {
         state.isLoading = false;

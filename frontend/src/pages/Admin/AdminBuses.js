@@ -17,7 +17,8 @@ const AdminBuses = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { pageNumber } = useParams();
+  const { pageNumber: pageNo } = useParams();
+  const pageNumber = pageNo || 1;
 
   const [showBusForm, setShowBusForm] = useState(false);
   const [selectedBus, setSelectedBus] = useState(null);
@@ -118,7 +119,7 @@ const AdminBuses = () => {
               getData={buses}
             />
           )}
-          <Paginate pages={pages} page={page} />
+          <Paginate pages={pages} page={page} isAdmin={true} />
         </DefaultLayout>
       ) : (
         <h1>{message.error("Not Authorized")}</h1>
