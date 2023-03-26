@@ -160,10 +160,3 @@ table {
   bottom: 0;
   right: 0;
 }
-
-Pagination {
-  background-color: blueviolet;
-}
-.page-color:hover {
-  background-color: aqua;
-}

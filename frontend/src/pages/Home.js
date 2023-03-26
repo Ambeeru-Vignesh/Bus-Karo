@@ -37,7 +37,7 @@ const Home = () => {
         {user && (
           <>
             {isLoading && <Loader />}
-            <div>
+            <div> 
               <Row gutter={[15, 15]}>
                 {buses
                   .filter((bus) => bus.status === "Yet To Start")

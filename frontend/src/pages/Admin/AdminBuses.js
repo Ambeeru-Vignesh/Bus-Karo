@@ -129,7 +129,7 @@ const AdminBuses = () => {
 };
 
 const thead = {
-  backgroundColor: "#191e89",
+  backgroundColor: "var(--secondary)",
   color: "white",
 };
 

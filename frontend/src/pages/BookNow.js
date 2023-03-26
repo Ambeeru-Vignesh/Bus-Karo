@@ -6,8 +6,8 @@ import { Row, Col, message } from "antd";
 import Loader from "../components/Loader";
 import { ListBusDetails, reset } from "../redux/buses/busSlice";
 import { useParams } from "react-router-dom";
-import Paginate from "../components/Paginate";
 import SeatSelection from "../components/SeatSelection";
+import { Button } from "react-bootstrap";
 
 const BookNow = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const BookNow = () => {
 
   const { id } = useParams();
 
-  //   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   const { user, isError } = useSelector((state) => state.auth);
   const { bus, isSuccess, isLoading } = useSelector((state) => state.buses);
@@ -30,7 +30,7 @@ const BookNow = () => {
       dispatch(ListBusDetails(id));
     }
   }, [navigate, dispatch, userInfo, user, id]);
-
+  let busFare;
   return (
     <DefaultLayout>
       {isLoading && <Loader />}
@@ -52,9 +52,35 @@ const BookNow = () => {
                 <p className="text-md"></p>
               </div>
               <hr />
+              <div className="flex flex-col gap-2">
+                <h1 className="text-xl">
+                  <b style={{ color: "rgb(2, 51, 124)" }}>Selected Seats : </b>
+                  {selectedSeats.join(" , ")}
+                </h1>
+                <h1
+                  className="text-2xl mt-2"
+                  style={{ color: "var(--secondary)" }}
+                >
+                  <b>Fare :</b>{" "}
+                  <b style={{ color: "#953005" }}>
+                    $ {(busFare = bus.fare * selectedSeats.length)}/-
+                  </b>
+                </h1>
+                <Button
+                  className="text-md secondary-btn mt-3"
+                  disabled={busFare === 0}
+                  style={{ color: "white" }}
+                >
+                  <h5>Book Now</h5>
+                </Button>
+              </div>
             </Col>
             <Col lg={12} xs={24} sm={24}>
-              <SeatSelection bus={bus} />
+              <SeatSelection
+                selectedSeats={selectedSeats}
+                setSelectedSeats={setSelectedSeats}
+                bus={bus}
+              />
             </Col>
           </Row>
         )}
