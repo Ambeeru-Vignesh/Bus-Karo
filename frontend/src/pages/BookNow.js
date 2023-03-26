@@ -8,6 +8,7 @@ import { ListBusDetails, reset } from "../redux/buses/busSlice";
 import { useParams } from "react-router-dom";
 import SeatSelection from "../components/SeatSelection";
 import { Button } from "react-bootstrap";
+import { createBooking } from "../redux/bookings/bookingSlice";
 
 const BookNow = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,14 @@ const BookNow = () => {
       dispatch(ListBusDetails(id));
     }
   }, [navigate, dispatch, userInfo, user, id]);
+
+  const booknow = () => {
+    let value = {
+      bus: bus._id,
+      seats: selectedSeats,
+    };
+    dispatch(createBooking(value));
+  };
   let busFare;
   return (
     <DefaultLayout>
@@ -49,7 +58,10 @@ const BookNow = () => {
                 <p className="text-md">Departure Time : {bus.departure}</p>
                 <p className="text-md">Arrival Time : {bus.arrival}</p>
                 <p className="text-md">Capacity : {bus.capacity}</p>
-                <p className="text-md"></p>
+                <p className="text-md">
+                  Seats Left :{" "}
+                  {bus.seatsBooked && bus.capacity - bus.seatsBooked.length}
+                </p>
               </div>
               <hr />
               <div className="flex flex-col gap-2">
@@ -65,11 +77,13 @@ const BookNow = () => {
                   <b style={{ color: "#953005" }}>
                     $ {(busFare = bus.fare * selectedSeats.length)}/-
                   </b>
+                  <hr />
                 </h1>
                 <Button
                   className="text-md secondary-btn mt-3"
                   disabled={busFare === 0}
                   style={{ color: "white" }}
+                  onClick={booknow}
                 >
                   <h5>Book Now</h5>
                 </Button>

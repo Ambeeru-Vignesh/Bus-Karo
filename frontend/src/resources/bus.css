@@ -10,9 +10,9 @@
   justify-content: center;
   padding: 15px;
   border: 1px solid gray;
-  border-radius: 5px;
-  /* border-top-left-radius: 40px;
-  border-top-right-radius: 40px; */
+  border-radius: 1px;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
 }
 
 .selected-seat {

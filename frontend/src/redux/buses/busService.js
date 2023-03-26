@@ -9,7 +9,10 @@ export const listBuses = async (pageNumber = "", token) => {
     },
   };
 
-  const response = await axios.get(`/api/buses?pageNumber=${pageNumber}`, config);
+  const response = await axios.get(
+    `/api/buses?pageNumber=${pageNumber}`,
+    config
+  );
 
   return response.data;
 };

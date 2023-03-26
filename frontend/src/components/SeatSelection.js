@@ -13,7 +13,6 @@ function SeatSelection({ selectedSeats, setSelectedSeats, bus }) {
       setSelectedSeats([...selectedSeats, seatNumber]);
     }
   };
-  
 
   return (
     <div className="mx-5">
