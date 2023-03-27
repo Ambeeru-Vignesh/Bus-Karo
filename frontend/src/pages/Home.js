@@ -8,6 +8,7 @@ import Bus from "../components/Bus";
 import { listBuses } from "../redux/buses/busSlice";
 import Paginate from "../components/Paginate";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ const Home = () => {
 
   const { pageNumber: pageNo } = useParams();
   const pageNumber = pageNo || 1;
+
+  const [filters = {}, setFilters] = useState({});
 
   const { user, isSuccess, isError } = useSelector((state) => state.auth);
 
@@ -37,6 +40,62 @@ const Home = () => {
         {user && (
           <>
             {isLoading && <Loader />}
+            <div className="my-3 py-1">
+              <Row gutter={10} align="center">
+                <Col lg={6} sm={24}>
+                  <input
+                    type="text"
+                    placeholder="From"
+                    value={filters.from}
+                    onChange={(e) =>
+                      setFilters({ ...filters, from: e.target.value })
+                    }
+                  />
+                </Col>
+                <Col lg={6} sm={24}>
+                  <input
+                    type="text"
+                    placeholder="To"
+                    value={filters.to}
+                    onChange={(e) =>
+                      setFilters({ ...filters, to: e.target.value })
+                    }
+                  />
+                </Col>
+                <Col lg={6} sm={24}>
+                  <input
+                    type="date"
+                    placeholder="Date"
+                    value={filters.journeyDate}
+                    onChange={(e) =>
+                      setFilters({ ...filters, journeyDate: e.target.value })
+                    }
+                  />
+                </Col>
+                <Col lg={6} sm={24}>
+                  <div className="d-flex gap-2">
+                    <button
+                      className="secondary-btn text-md"
+                      onClick={() => listBuses(pageNumber)}
+                    >
+                      Filter
+                    </button>
+                    <button
+                      className="outlined px-3 text-md"
+                      onClick={() =>
+                        setFilters({
+                          from: "",
+                          to: "",
+                          journeyDate: "",
+                        })
+                      }
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </Col>
+              </Row>
+            </div>
             <div>
               <Row gutter={[15, 15]}>
                 {buses

@@ -15,8 +15,23 @@ const createBooking = async (value, token) => {
   return response.data;
 };
 
+const bookingPayment = async (value, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(API_URL + "make-payment", value, config);
+  if (response.success) {
+    message.success(response.message);
+  }
+  return response.data;
+};
+
 const bookingService = {
   createBooking,
+  bookingPayment,
 };
 
 export default bookingService;

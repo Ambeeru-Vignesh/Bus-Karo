@@ -17,7 +17,8 @@ const getBuses = asyncHandler(async (req, res) => {
   const pageSize = 4;
   const page = Number(req.query.pageNumber) || 1;
   const count = await Bus.countDocuments({});
-  const buses = await Bus.find({})
+
+  const buses = await Bus.find(req.body)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 

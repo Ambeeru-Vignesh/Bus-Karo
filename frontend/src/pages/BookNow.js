@@ -8,7 +8,11 @@ import { ListBusDetails, reset } from "../redux/buses/busSlice";
 import { useParams } from "react-router-dom";
 import SeatSelection from "../components/SeatSelection";
 import { Button } from "react-bootstrap";
-import { createBooking } from "../redux/bookings/bookingSlice";
+import { bookingPayment, createBooking } from "../redux/bookings/bookingSlice";
+import getStripe from "../components/getStripe";
+import { Elements } from "@stripe/react-stripe-js";
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
 
 const BookNow = () => {
   const dispatch = useDispatch();
@@ -32,13 +36,42 @@ const BookNow = () => {
     }
   }, [navigate, dispatch, userInfo, user, id]);
 
-  const booknow = () => {
+  const bookNow = () => {
     let value = {
       bus: bus._id,
       seats: selectedSeats,
     };
     dispatch(createBooking(value));
   };
+
+  const onToken = async (token) => {
+    console.log(token);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const value = {
+        token,
+        amount: selectedSeats.length * bus.fare * 100,
+      };
+      const response = await axios.post(
+        "/api/bookings/make-payment",
+        value,
+        config
+      );
+      if (response.data.success) {
+        message.success(response.data.message);
+        bookNow(response.data.data.transactionId);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
   let busFare;
   return (
     <DefaultLayout>
@@ -75,18 +108,24 @@ const BookNow = () => {
                 >
                   <b>Fare :</b>{" "}
                   <b style={{ color: "#953005" }}>
-                    $ {(busFare = bus.fare * selectedSeats.length)}/-
+                    Rs. {(busFare = bus.fare * selectedSeats.length)}/-
                   </b>
                   <hr />
                 </h1>
-                <Button
-                  className="text-md secondary-btn mt-3"
-                  disabled={busFare === 0}
-                  style={{ color: "white" }}
-                  onClick={booknow}
+                <StripeCheckout
+                  token={onToken}
+                  amount={bus.fare * selectedSeats.length * 100}
+                  currency="INR"
+                  stripeKey={process.env.REACT_APP_PUBLIC_KEY}
                 >
-                  <h5>Book Now</h5>
-                </Button>
+                  <Button
+                    className="text-md secondary-btn mt-3"
+                    disabled={busFare === 0}
+                    style={{ color: "white" }}
+                  >
+                    <h5>Book Now</h5>
+                  </Button>
+                </StripeCheckout>
               </div>
             </Col>
             <Col lg={12} xs={24} sm={24}>

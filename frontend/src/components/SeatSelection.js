@@ -6,7 +6,6 @@ function SeatSelection({ selectedSeats, setSelectedSeats, bus }) {
   const capacity = bus.capacity;
 
   const selectOrUnselectSeats = (seatNumber) => {
-    console.log("Hanuman");
     if (selectedSeats && selectedSeats.includes(seatNumber)) {
       setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
     } else {
