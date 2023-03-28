@@ -4,6 +4,11 @@ import busReducer from "./redux/buses/busSlice";
 import bookingReducer from "./redux/bookings/bookingSlice";
 import alertSlice from "./redux/alertSlice";
 
+const preloadedState = {
+  booking: {
+    Payment: false,
+  },
+};
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -11,4 +16,5 @@ export const store = configureStore({
     bookings: bookingReducer,
     alerts: alertSlice,
   },
+  preloadedState: preloadedState,
 });

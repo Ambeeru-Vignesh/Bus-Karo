@@ -1,13 +1,13 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
 
-import {
+const {
   createBooking,
   bookingPayment,
-} from "../controllers/bookingsController.js";
-import protect from "../middlewares/authMiddleware.js";
+} = require("../controllers/bookingsController");
+const { protect } = require("../middlewares/authMiddleware");
 
 router.route("/book-seat").post(protect, createBooking);
-router.route("/make-payment").post(protect, bookingPayment);
+router.route("/make-payments").post(protect, bookingPayment);
 
-export default router;
+module.exports = router;

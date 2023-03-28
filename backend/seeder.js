@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import colors from "colors";
-import users from "./data/users.js";
-import User from "./models/userModel.js";
-import connectDB from "./config/db.js";
-
+const mongoose = require("mongoose");
+require("dotenv").config();
+const colors = require("colors");
+const users = require("./data/users");
+const users = require("./data/users");
+const User = require("./models/userModel");
+const connectDB = require("./config/db");
 dotenv.config();
 
 connectDB();

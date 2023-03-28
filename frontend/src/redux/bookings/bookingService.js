@@ -22,10 +22,7 @@ const bookingPayment = async (value, token) => {
     },
   };
 
-  const response = await axios.post(API_URL + "make-payment", value, config);
-  if (response.success) {
-    message.success(response.message);
-  }
+  const response = await axios.post(API_URL + "make-payments", value, config);
   return response.data;
 };
 

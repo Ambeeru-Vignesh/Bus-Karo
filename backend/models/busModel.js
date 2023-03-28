@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const busSchema = new mongoose.Schema({
   name: {
@@ -52,4 +52,4 @@ const busSchema = new mongoose.Schema({
 });
 
 const Bus = mongoose.model("buses", busSchema);
-export default Bus;
+module.exports = Bus;

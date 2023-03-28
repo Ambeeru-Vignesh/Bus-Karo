@@ -9,10 +9,6 @@ import { useParams } from "react-router-dom";
 import SeatSelection from "../components/SeatSelection";
 import { Button } from "react-bootstrap";
 import { bookingPayment, createBooking } from "../redux/bookings/bookingSlice";
-import getStripe from "../components/getStripe";
-import { Elements } from "@stripe/react-stripe-js";
-import StripeCheckout from "react-stripe-checkout";
-import axios from "axios";
 
 const BookNow = () => {
   const dispatch = useDispatch();
@@ -22,8 +18,9 @@ const BookNow = () => {
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  const { user, isError } = useSelector((state) => state.auth);
-  const { bus, isSuccess, isLoading } = useSelector((state) => state.buses);
+  const { user } = useSelector((state) => state.auth);
+  const { bus, isLoading } = useSelector((state) => state.buses);
+  const { url, payment } = useSelector((state) => state.bookings);
   const userInfo = localStorage.getItem("user");
 
   useEffect(() => {
@@ -34,41 +31,41 @@ const BookNow = () => {
       dispatch(reset());
       dispatch(ListBusDetails(id));
     }
-  }, [navigate, dispatch, userInfo, user, id]);
+    if (url) {
+      window.location.href = url;
+    }
+  }, [navigate, dispatch, userInfo, user, id, url]);
 
   const bookNow = () => {
+    console.log("Hello Viggu Brother");
+
+    const seatsBook = JSON.parse(localStorage.getItem("seats"));
     let value = {
       bus: bus._id,
-      seats: selectedSeats,
+      seats: seatsBook,
     };
     dispatch(createBooking(value));
+    dispatch(ListBusDetails(id));
+    localStorage.removeItem("busId");
   };
 
-  const onToken = async (token) => {
-    console.log(token);
+  if (payment) {
+    console.log("calling booknow");
+    bookNow();
+    dispatch(reset());
+  }
+
+  const onToken = async () => {
+    console.log("Hanuman");
+    localStorage.setItem("busId", JSON.stringify(bus._id));
+    localStorage.setItem("seats", JSON.stringify(selectedSeats));
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
       const value = {
-        token,
         amount: selectedSeats.length * bus.fare * 100,
       };
-      const response = await axios.post(
-        "/api/bookings/make-payment",
-        value,
-        config
-      );
-      if (response.data.success) {
-        message.success(response.data.message);
-        bookNow(response.data.data.transactionId);
-      } else {
-        message.error(response.data.message);
-      }
-    } catch (error) {
-      message.error(error.message);
+      dispatch(bookingPayment(value));
+    } catch {
+      message.error("Payment will not fail");
     }
   };
 
@@ -112,20 +109,15 @@ const BookNow = () => {
                   </b>
                   <hr />
                 </h1>
-                <StripeCheckout
-                  token={onToken}
-                  amount={bus.fare * selectedSeats.length * 100}
-                  currency="INR"
-                  stripeKey={process.env.REACT_APP_PUBLIC_KEY}
+
+                <Button
+                  className="text-md secondary-btn mt-3"
+                  disabled={busFare === 0}
+                  style={{ color: "white" }}
+                  onClick={onToken}
                 >
-                  <Button
-                    className="text-md secondary-btn mt-3"
-                    disabled={busFare === 0}
-                    style={{ color: "white" }}
-                  >
-                    <h5>Book Now</h5>
-                  </Button>
-                </StripeCheckout>
+                  <h5>Book Now</h5>
+                </Button>
               </div>
             </Col>
             <Col lg={12} xs={24} sm={24}>

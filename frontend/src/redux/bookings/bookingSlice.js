@@ -7,7 +7,8 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
-  data: {},
+  url: "",
+  payment: false,
 };
 
 export const createBooking = createAsyncThunk(
@@ -51,6 +52,9 @@ const bookingSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => initialState,
+    payment: (state, action) => {
+      state.payment = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -73,7 +77,7 @@ const bookingSlice = createSlice({
       .addCase(bookingPayment.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.data = action.payload.data;
+        state.url = action.payload.url;
       })
       .addCase(bookingPayment.rejected, (state, action) => {
         state.isLoading = false;
@@ -83,5 +87,5 @@ const bookingSlice = createSlice({
   },
 });
 
-export const { reset } = bookingSlice.actions;
+export const { reset, payment } = bookingSlice.actions;
 export default bookingSlice.reducer;

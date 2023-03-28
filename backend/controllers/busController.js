@@ -1,5 +1,5 @@
-import asyncHandler from "express-async-handler";
-import Bus from "../models/busModel.js";
+const asyncHandler = require("express-async-handler");
+const Bus = require("../models/busModel");
 
 const createBus = asyncHandler(async (req, res) => {
   const existingBus = await Bus.findOne({ number: req.body.number });
@@ -65,4 +65,4 @@ const updateBus = asyncHandler(async (req, res) => {
   }
 });
 
-export { createBus, getBuses, getBusById, deleteBus, updateBus };
+module.exports = { createBus, getBuses, getBusById, deleteBus, updateBus };

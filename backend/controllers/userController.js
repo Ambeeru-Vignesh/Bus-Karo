@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import asyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
-import bcrypt from "bcryptjs";
+const jwt = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -83,4 +83,4 @@ const generateToken = (id) => {
   });
 };
 
-export { registerUser, loginUser, getMe };
+module.exports = { registerUser, loginUser, getMe };

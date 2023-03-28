@@ -1,16 +1,14 @@
-import express from "express";
-import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
-import busRoutes from "./routes/busRoutes.js";
-import bookingRoutes from "./routes/bookingRoute.js";
-
+const express = require("express");
 const app = express();
-dotenv.config();
+require("dotenv").config();
+const connectDB = require("./config/db");
+app.use(express.json());
+
+const userRoutes = require("./routes/userRoutes");
+const busRoutes = require("./routes/busRoutes");
+const bookingRoutes = require("./routes/bookingRoute");
 
 connectDB();
-
-app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/buses", busRoutes);
 app.use("/api/bookings", bookingRoutes);

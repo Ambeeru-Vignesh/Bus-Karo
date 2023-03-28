@@ -1,9 +1,8 @@
-import asyncHandler from "express-async-handler";
-import Booking from "../models/bookingModel.js";
-import Bus from "../models/busModel.js";
-import { v4 as uuidv4 } from "uuid";
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.stripe_key);
+const asyncHandler = require("express-async-handler");
+const Booking = require("../models/bookingModel");
+const Bus = require("../models/busModel");
+const stripe = require("stripe")(process.env.stripe_key);
+const { v4: uuidv4 } = require("uuid");
 
 const createBooking = asyncHandler(async (req, res) => {
   try {
@@ -24,47 +23,29 @@ const createBooking = asyncHandler(async (req, res) => {
 });
 
 const bookingPayment = async (req, res) => {
-  try {
-    const { token, amount } = req.body;
-    const customer = await stripe.customers.create({
-      email: token.email,
-      source: token.id,
-    });
-    const payment = await stripe.charges.create(
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
       {
-        amount: amount,
-        currency: "inr",
-        customer: customer.id,
-        receipt_email: token.email,
-      },
-      {
-        idempotencyKey: uuidv4(),
-      }
-    );
-
-    if (payment) {
-      res.status(200).send({
-        message: "Payment successful",
-        data: {
-          transactionId: payment.source.id,
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Bus Booking",
+          },
+          unit_amount: req.body.amount,
         },
-        success: true,
-      });
-    } else {
-      res.status(500).send({
-        message: "Payment failed",
-        data: error,
-        success: false,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      message: "Payment failed",
-      data: error,
-      success: false,
-    });
-  }
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url:
+      "http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url: "http://localhost:3000/checkout-fail",
+  });
+  console.log(session.success_url);
+  res.send({
+    url: session.url,
+    checkoutSessionId: session.id,
+  });
 };
 
-export { createBooking, bookingPayment };
+module.exports = { createBooking, bookingPayment };
