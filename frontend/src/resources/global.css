@@ -41,7 +41,7 @@ select {
 /* Home content */
 
 #Home-content {
-  background-color: rgb(245, 242, 227);
+  background-color: rgb(245, 245, 245);
 }
 
 /* text-sizes */
@@ -64,6 +64,9 @@ select {
 }
 .primary-text {
   color: var(--primary) !important;
+}
+.success-text {
+  color: rgb(32, 137, 32);
 }
 
 .underline {
@@ -115,7 +118,7 @@ button {
 
 a {
   text-decoration: none !important;
-  color: #191e89 !important;
+  color: var(--primary) !important;
 }
 
 i {
@@ -159,4 +162,9 @@ table {
   position: absolute;
   bottom: 0;
   right: 0;
+  color: black !important;
+}
+
+.page-color {
+  color: black !important;
 }

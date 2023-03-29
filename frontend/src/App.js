@@ -10,6 +10,7 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Bookings from "./pages/Bookings";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/register" element={<Register />} exact />
           <Route path="/page/:pageNumber" element={<Home />} exact />
           <Route path="/book-now/:id" element={<BookNow />} exact />
+          <Route path="/bookings" element={<Bookings />} exact />
           <Route path="/" element={<Home />} exact />
         </Routes>
       </Router>

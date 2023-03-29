@@ -21,8 +21,4 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = "" }) => {
   );
 };
 
-const color = {
-  backgroundColor: "green",
-};
-
 export default Paginate;

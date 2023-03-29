@@ -45,4 +45,16 @@ const bookingPayment = async (req, res) => {
   });
 };
 
-module.exports = { createBooking, bookingPayment };
+const getBookingsById = asyncHandler(async (req, res) => {
+  const bookings = await Booking.find({ user: req.user._id }) //user: req.user._id means logged in users
+    .populate("bus")
+    .populate("user");
+  if (bookings) {
+    res.json(bookings);
+  } else {
+    res.status(404);
+    throw new Error("Bookings not found");
+  }
+});
+
+module.exports = { createBooking, bookingPayment, getBookingsById };

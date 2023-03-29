@@ -17,7 +17,7 @@ const DefaultLayout = ({ children }) => {
     if (!user) {
       navigate("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const userMenu = [
     {
@@ -70,6 +70,9 @@ const DefaultLayout = ({ children }) => {
   ];
 
   let activeRoute = window.location.pathname;
+  if (window.location.pathname.includes("book-now")) {
+    activeRoute = "/";
+  }
 
   const pathHandler = (path) => {
     if (path === "/logout") {

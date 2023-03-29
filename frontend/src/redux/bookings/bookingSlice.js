@@ -48,6 +48,24 @@ export const bookingPayment = createAsyncThunk(
   }
 );
 
+export const getBookingsById = createAsyncThunk(
+  "bookings/listAll",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await bookingService.getBookingsById(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const bookingSlice = createSlice({
   name: "booking",
   initialState,
@@ -87,6 +105,19 @@ const bookingSlice = createSlice({
         state.url = action.payload.url;
       })
       .addCase(bookingPayment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getBookingsById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBookingsById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.bookings = action.payload;
+      })
+      .addCase(getBookingsById.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

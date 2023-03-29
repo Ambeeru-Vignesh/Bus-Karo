@@ -32,7 +32,7 @@ const Bus = ({ bus }) => {
           </div>
 
           <h1
-            className="text-lg underline primary-text"
+            className="text-lg underline success-text"
             onClick={() => {
               navigate(`/book-now/${bus._id}`);
             }}

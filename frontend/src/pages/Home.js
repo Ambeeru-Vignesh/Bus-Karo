@@ -21,9 +21,9 @@ const Home = () => {
 
   const { user, isSuccess, isError } = useSelector((state) => state.auth);
 
-  const { isLoading, buses, pages, page } = useSelector((state) => state.buses);
-
   const userInfo = localStorage.getItem("user");
+
+  const { isLoading, buses, pages, page } = useSelector((state) => state.buses);
 
   useEffect(() => {
     if (!userInfo || !user) {

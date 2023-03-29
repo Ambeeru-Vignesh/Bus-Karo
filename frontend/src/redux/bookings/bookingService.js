@@ -10,7 +10,7 @@ const createBooking = async (value, token) => {
   };
   const response = await axios.post(API_URL + "book-seat", value, config);
   if (response.data) {
-    message.success("Booking Created");
+    message.success("Booked Successfully");
   }
   return response.data;
 };
@@ -26,9 +26,21 @@ const bookingPayment = async (value, token) => {
   return response.data;
 };
 
+const getBookingsById = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + "myBookings", config);
+  return response.data;
+};
+
 const bookingService = {
   createBooking,
   bookingPayment,
+  getBookingsById,
 };
 
 export default bookingService;
