@@ -5,6 +5,7 @@ const initialState = {
   bookings: [],
   isError: false,
   isSuccess: false,
+  isBookingSuccess: false,
   isLoading: false,
   message: "",
   url: "",
@@ -55,6 +56,12 @@ const bookingSlice = createSlice({
     payment: (state, action) => {
       state.payment = true;
     },
+    paymentFalse: (state, action) => {
+      state.payment = false;
+    },
+    bookingFalse: (state, action) => {
+      state.isBookingSuccess = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -63,7 +70,7 @@ const bookingSlice = createSlice({
       })
       .addCase(createBooking.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = true;
+        state.isBookingSuccess = true;
         state.bookings.push(action.payload);
       })
       .addCase(createBooking.rejected, (state, action) => {
@@ -87,5 +94,6 @@ const bookingSlice = createSlice({
   },
 });
 
-export const { reset, payment } = bookingSlice.actions;
+export const { reset, payment, paymentFalse, bookingFalse } =
+  bookingSlice.actions;
 export default bookingSlice.reducer;

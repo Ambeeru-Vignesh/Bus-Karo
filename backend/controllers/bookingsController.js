@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const Booking = require("../models/bookingModel");
 const Bus = require("../models/busModel");
 const stripe = require("stripe")(process.env.stripe_key);
-const { v4: uuidv4 } = require("uuid");
 
 const createBooking = asyncHandler(async (req, res) => {
   try {
@@ -11,7 +10,6 @@ const createBooking = asyncHandler(async (req, res) => {
       user: req.user._id,
     });
     await newBooking.save();
-
     const bus = await Bus.findById(req.body.bus);
     bus.seatsBooked = [...bus.seatsBooked, ...req.body.seats];
     await bus.save();
@@ -41,7 +39,6 @@ const bookingPayment = async (req, res) => {
       "http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}",
     cancel_url: "http://localhost:3000/checkout-fail",
   });
-  console.log(session.success_url);
   res.send({
     url: session.url,
     checkoutSessionId: session.id,

@@ -12,10 +12,10 @@ const CheckoutSuccess = () => {
   const { user } = useSelector((state) => state.auth);
 
   const userInfo = localStorage.getItem("user");
-  const busId = JSON.parse(localStorage.getItem("busId"));
+
   const location = useLocation();
   const [searchParams] = useSearchParams();
-
+  const busId = JSON.parse(localStorage.getItem("busId"));
   const session_id = searchParams.get("session_id");
 
   const [access, setAccess] = useState(false);
@@ -33,10 +33,13 @@ const CheckoutSuccess = () => {
         );
         setAccess(true);
         dispatch(payment());
-        navigate(`/book-now/${busId}`);
+
+        if (busId) {
+          navigate(`/book-now/${busId}`);
+        }
       }
     }
-  }, [navigate, dispatch, userInfo, user, session_id, location.search]);
+  }, [navigate, dispatch, userInfo, user, session_id, location.search, busId]);
 
   return (
     <div>

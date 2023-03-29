@@ -8,7 +8,12 @@ import { ListBusDetails, reset } from "../redux/buses/busSlice";
 import { useParams } from "react-router-dom";
 import SeatSelection from "../components/SeatSelection";
 import { Button } from "react-bootstrap";
-import { bookingPayment, createBooking } from "../redux/bookings/bookingSlice";
+import {
+  bookingFalse,
+  bookingPayment,
+  createBooking,
+  paymentFalse,
+} from "../redux/bookings/bookingSlice";
 
 const BookNow = () => {
   const dispatch = useDispatch();
@@ -20,7 +25,9 @@ const BookNow = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { bus, isLoading } = useSelector((state) => state.buses);
-  const { url, payment } = useSelector((state) => state.bookings);
+  const { url, payment, isBookingSuccess } = useSelector(
+    (state) => state.bookings
+  );
   const userInfo = localStorage.getItem("user");
 
   useEffect(() => {
@@ -34,30 +41,34 @@ const BookNow = () => {
     if (url) {
       window.location.href = url;
     }
-  }, [navigate, dispatch, userInfo, user, id, url]);
+
+    if (isBookingSuccess) {
+      localStorage.removeItem("busId");
+      localStorage.removeItem("seats");
+      dispatch(ListBusDetails(id));
+      dispatch(reset());
+      dispatch(bookingFalse());
+    }
+  }, [navigate, dispatch, userInfo, user, id, url, isBookingSuccess]);
 
   const bookNow = () => {
-    console.log("Hello Viggu Brother");
-
     const seatsBook = JSON.parse(localStorage.getItem("seats"));
     let value = {
-      bus: bus._id,
+      bus: id,
       seats: seatsBook,
     };
     dispatch(createBooking(value));
-    dispatch(ListBusDetails(id));
-    localStorage.removeItem("busId");
   };
 
   if (payment) {
-    console.log("calling booknow");
     bookNow();
     dispatch(reset());
+    dispatch(paymentFalse());
   }
 
   const onToken = async () => {
     console.log("Hanuman");
-    localStorage.setItem("busId", JSON.stringify(bus._id));
+    localStorage.setItem("busId", JSON.stringify(id));
     localStorage.setItem("seats", JSON.stringify(selectedSeats));
     try {
       const value = {
