@@ -30,9 +30,28 @@ const Home = () => {
       console.log("not logged in");
       navigate("/login");
     } else {
-      dispatch(listBuses(pageNumber));
+      dispatch(listBuses());
     }
   }, [navigate, dispatch, userInfo, user, pageNumber]);
+
+  const getBuses = () => {
+    const tempFilters = {};
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        tempFilters[key] = filters[key];
+      }
+    });
+    dispatch(listBuses(tempFilters));
+  };
+
+  const clear = () => {
+    setFilters({
+      from: "",
+      to: "",
+      journeyDate: "",
+    });
+    dispatch(listBuses());
+  };
 
   return (
     <>
@@ -76,20 +95,11 @@ const Home = () => {
                   <div className="d-flex gap-2">
                     <button
                       className="secondary-btn text-md"
-                      onClick={() => listBuses(pageNumber)}
+                      onClick={getBuses}
                     >
                       Filter
                     </button>
-                    <button
-                      className="outlined px-3 text-md"
-                      onClick={() =>
-                        setFilters({
-                          from: "",
-                          to: "",
-                          journeyDate: "",
-                        })
-                      }
-                    >
+                    <button className="outlined px-3 text-md" onClick={clear}>
                       Clear
                     </button>
                   </div>
@@ -107,9 +117,9 @@ const Home = () => {
                   ))}
               </Row>
             </div>
-            <div className="Paginate">
+            {/* <div className="Paginate">
               <Paginate pages={pages} page={page} />
-            </div>
+            </div> */}
           </>
         )}
       </DefaultLayout>

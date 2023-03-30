@@ -12,10 +12,11 @@ const initialState = {
 
 export const listBuses = createAsyncThunk(
   "buses/listall",
-  async (pageNumber = "", thunkAPI) => {
+  async (filters, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await busService.listBuses(pageNumber, token);
+
+      return await busService.listBuses(filters, token);
     } catch (error) {
       const message =
         (error.response &&

@@ -6,7 +6,7 @@ const Bus = ({ bus }) => {
   return (
     <div className="Home-spacing">
       <div className="card p-2" id="Home-content">
-        <h1 className="text-lg secondary-text">{bus.name}</h1>
+        <h1 className="text-xl secondary-text">{bus.name}</h1>
         <hr />
         <div className="d-flex justify-content-between">
           <div>

@@ -48,6 +48,7 @@ const BookNow = () => {
       dispatch(ListBusDetails(id));
       dispatch(reset());
       dispatch(bookingFalse());
+      navigate("/bookings");
     }
   }, [navigate, dispatch, userInfo, user, id, url, isBookingSuccess]);
 

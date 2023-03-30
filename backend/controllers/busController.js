@@ -14,19 +14,19 @@ const createBus = asyncHandler(async (req, res) => {
 });
 
 const getBuses = asyncHandler(async (req, res) => {
-  const pageSize = 4;
-  const page = Number(req.query.pageNumber) || 1;
+  // const pageSize = 4;
+  // const page = Number(req.query.pageNumber) || 1;
   const count = await Bus.countDocuments({});
 
-  const buses = await Bus.find(req.body)
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
+  const buses = await Bus.find(req.body);
+  // .limit(pageSize)
+  // .skip(pageSize * (page - 1));
 
   if (!buses) {
     console.log("No buses Found");
   }
 
-  res.json({ buses, page, pages: Math.ceil(count / pageSize) });
+  res.json({ buses });
 });
 
 const getBusById = asyncHandler(async (req, res) => {

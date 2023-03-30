@@ -2,17 +2,14 @@ import axios from "axios";
 import { message } from "antd";
 const API_URL = "/api/buses/";
 
-export const listBuses = async (pageNumber = "", token) => {
+export const listBuses = async (filters, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.get(
-    `/api/buses?pageNumber=${pageNumber}`,
-    config
-  );
+  const response = await axios.post(`/api/buses/getbuses`, filters, config);
 
   return response.data;
 };

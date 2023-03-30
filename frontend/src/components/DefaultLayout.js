@@ -148,7 +148,7 @@ const DefaultLayout = ({ children }) => {
           </div>
 
           <div className="body">
-            <div className="header">
+            <div className="header flex justify-between items-center side-by-side">
               {collapsed ? (
                 <i
                   className="ri-menu-2-fill"
@@ -160,8 +160,13 @@ const DefaultLayout = ({ children }) => {
                   onClick={() => setCollapsed(!collapsed)}
                 ></i>
               )}
+              <span className="tagline">
+                <h1 className="text-lg">
+                  Travel aasaan Karo, through Bus Karo!!
+                </h1>
+              </span>
             </div>
-            <span className="content">{children}</span>
+            <div className="content">{children}</div>
           </div>
         </div>
       ) : (
