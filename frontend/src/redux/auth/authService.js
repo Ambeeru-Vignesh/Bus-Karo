@@ -24,7 +24,7 @@ const login = async (userData) => {
   return response.data;
 };
 
-// Login user
+// Get users
 const getUsers = async (token) => {
   const config = {
     headers: {
@@ -54,6 +54,31 @@ const updateUsers = async (values, token) => {
   return response.data;
 };
 
+// Get Me
+const getMe = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + "me", config);
+
+  return response.data;
+};
+
+const updateUserProfile = async (values, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.post(API_URL + "update", values, config);
+
+  return response.data;
+};
+
 // Logout user
 const logout = () => {
   localStorage.removeItem("user");
@@ -65,6 +90,8 @@ const authService = {
   login,
   getUsers,
   updateUsers,
+  getMe,
+  updateUserProfile,
 };
 
 export default authService;

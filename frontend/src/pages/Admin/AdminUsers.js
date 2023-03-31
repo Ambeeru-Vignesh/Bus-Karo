@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { message, Modal, Table } from "antd";
-import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { message, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import Paginate from "../../components/Paginate";
 import Loader from "../../components/Loader";
 import { getUsers, updateUsers } from "../../redux/auth/authSlice";
 import PageTitle from "../../components/PageTitle";
@@ -51,7 +49,7 @@ const AdminUsers = () => {
       dispatch(updateUsers(payload));
 
       if (isUpdateSuccess) {
-        // dispatch(getUsers());
+        dispatch(getUsers());
         message.success("User permissions updated successfully");
       }
 

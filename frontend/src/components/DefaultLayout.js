@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/authSlice";
 import { message } from "antd";
+import { reset } from "../redux/bookings/bookingSlice";
 
 const DefaultLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const DefaultLayout = ({ children }) => {
 
   const pathHandler = (path) => {
     if (path === "/logout") {
+      dispatch(reset());
       dispatch(logout());
       localStorage.removeItem("user");
       message.error("Logged Out Successfully!");

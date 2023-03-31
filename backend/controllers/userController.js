@@ -77,7 +77,45 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user);
+  const user = await User.findById(req.user);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+// @desc    update user data
+// @route   PUT /api/users/me
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  console.log(req.body.values);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      // token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
 });
 
 //get Users list
@@ -87,7 +125,6 @@ const getUsers = asyncHandler(async (req, res) => {
 });
 
 //update user permissions
-
 const updateUsers = asyncHandler(async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.body._id, req.body, {
@@ -110,4 +147,11 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { registerUser, loginUser, getMe, getUsers, updateUsers };
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe,
+  getUsers,
+  updateUsers,
+  updateUserProfile,
+};

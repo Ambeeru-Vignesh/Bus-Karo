@@ -12,7 +12,8 @@
 
 #name,
 #email,
-#password {
+#password,
+#confirm-password {
   height: 40px;
   border: 2px solid gray;
   width: 100%;

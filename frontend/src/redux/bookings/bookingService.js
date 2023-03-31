@@ -37,10 +37,22 @@ const getBookingsById = async (token) => {
   return response.data;
 };
 
+const getAllBookings = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + "bookings", config);
+  return response.data;
+};
+
 const bookingService = {
   createBooking,
   bookingPayment,
   getBookingsById,
+  getAllBookings,
 };
 
 export default bookingService;

@@ -57,4 +57,15 @@ const getBookingsById = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createBooking, bookingPayment, getBookingsById };
+//get Users list
+const getAllBookings = asyncHandler(async (req, res) => {
+  const bookings = await Booking.find().populate("bus").populate("user");
+  res.json(bookings);
+});
+
+module.exports = {
+  createBooking,
+  bookingPayment,
+  getBookingsById,
+  getAllBookings,
+};
