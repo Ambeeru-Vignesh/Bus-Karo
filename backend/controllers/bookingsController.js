@@ -36,8 +36,8 @@ const bookingPayment = async (req, res) => {
     ],
     mode: "payment",
     success_url:
-      "http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: "http://localhost:3000/checkout-fail",
+      "https://buskaro.onrender.com/checkout-success?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url: "https://buskaro.onrender.com/checkout-fail",
   });
   res.send({
     url: session.url,
