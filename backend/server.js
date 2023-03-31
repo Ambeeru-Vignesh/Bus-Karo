@@ -13,8 +13,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/buses", busRoutes);
 app.use("/api/bookings", bookingRoutes);
 
-const __dirname = path.resolve();
-
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
