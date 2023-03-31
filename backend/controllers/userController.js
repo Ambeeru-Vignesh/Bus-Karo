@@ -55,6 +55,10 @@ const loginUser = asyncHandler(async (req, res) => {
   // Check for user email
   const user = await User.findOne({ email });
 
+  if (user.isBlocked) {
+    throw new Error("You've been blocked, Please Contact the admin");
+  }
+
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
@@ -76,6 +80,29 @@ const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
+//get Users list
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+//update user permissions
+
+const updateUsers = asyncHandler(async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.body._id, req.body, {
+      new: true,
+    });
+
+    res.send({
+      success: true,
+    });
+  } catch (error) {
+    res.status(500);
+    throw new Error("cannot find user ");
+  }
+});
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -83,4 +110,4 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { registerUser, loginUser, getMe };
+module.exports = { registerUser, loginUser, getMe, getUsers, updateUsers };

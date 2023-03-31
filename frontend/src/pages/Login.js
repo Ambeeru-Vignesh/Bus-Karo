@@ -24,12 +24,12 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(userMessage);
+      message.error("You've been blocked. Please contact the admin");
     }
     if (user) {
       navigate("/");
       if (isSuccess) {
-        message.success("User Logged in Successfully");
+        message.success("User Logged in Successfully.");
       }
     }
 

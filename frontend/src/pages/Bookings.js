@@ -106,9 +106,9 @@ const Bookings = () => {
             <Table
               dataSource={booking}
               columns={columns}
-              scroll={{
-                y: 450,
-              }}
+              // scroll={{
+              //   y: 475,
+              // }}
             />
           </div>
           {showPrintModal && (
